@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+     <meta chartset="UTF-8"/>
+     <meta name="viewpot" content="width=device-width, initial-scale=1.0"/>
+        
+     <title>Password Strength Analyzer</title>
+    
+     <link href="https://cdn.jsdelivr.net/npm/taliwindowss@2/dist/tailwind.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="style.css"/>
+   </head>
+
+    <body class="bg-grey-100 flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded shadow p-6 w-full max-w-md">
+            <h1 class="text-2xl font-bond mb-4 text-center"> Password Strenght Analyzer</h1>
+            <input id="password-input" type="password" placeholder="Enter Password" class="w-full border rounded px-3 py-2 mb-4"/>
+            <div id="strength-bar" class="h-4 rounded bg-gray-300 mb-2"></div>
+            <p id="strength-text" class="mb-4 text-center font-medium">Strength: </p>
+            <div id="tips" class="text-sm text-gray-600"></div>
+            <button id="ai-btn" class="mt-4 w-full bg-blue-500 text-white rounded py-2 hover:bg-blue-600">Suggest Better Password</button>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
