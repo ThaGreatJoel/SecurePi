@@ -6,81 +6,129 @@ router.get("/", (req, res) => {
     <!DOCTYPE html>
     <html lang="en">
     <head>
-      <meta charset="UTF-8">
+      <meta charset="UTF-8" />
       <title>SecurePass API</title>
       <style>
         body {
-          font-family: 'Segoe UI', sans-serif;
-          background-color: #0e1117;
-          color: #eaeaea;
+          font-family: Arial, sans-serif;
+          background-color: #ffffff;
+          color: #111;
+          margin: 0;
           padding: 40px;
           line-height: 1.6;
         }
+
         h1 {
-          color: #00e0ff;
-          font-size: 32px;
+          font-size: 28px;
+          margin-bottom: 10px;
+          color: #202124;
         }
+
         h2 {
-          color: #61dafb;
+          font-size: 20px;
+          color: #1967d2;
           margin-top: 40px;
-          border-bottom: 1px solid #444;
-          padding-bottom: 6px;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 5px;
         }
-        code, pre {
-          background-color: #1a1d24;
-          padding: 10px;
-          border-radius: 6px;
-          display: block;
-          color: #fff;
-          font-size: 14px;
+
+        a {
+          color: #1967d2;
+          text-decoration: none;
         }
+
         .section {
           margin-bottom: 30px;
         }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+        }
+
+        th, td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f1f3f4;
+          color: #333;
+        }
+
+        code {
+          background-color: #f1f3f4;
+          padding: 2px 4px;
+          border-radius: 4px;
+          font-family: monospace;
+        }
+
+        pre {
+          background-color: #f5f5f5;
+          padding: 15px;
+          border-radius: 6px;
+          overflow-x: auto;
+        }
+
         .footer {
           margin-top: 40px;
-          font-style: italic;
-          color: #888;
+          color: #666;
+          font-size: 14px;
         }
       </style>
     </head>
     <body>
-      <h1>🔐 SecurePass API</h1>
-      <p>A secure password manager API using Node.js, Express, and MongoDB.</p>
+      <h1>SecurePass API Reference</h1>
+      <p>This API allows users to register, log in, and store encrypted passwords securely.</p>
 
       <div class="section">
-        <h2>📌 AUTH ROUTES</h2>
-        <pre>
-POST   /api/auth/signup
-→ Register a new user
-
-POST   /api/auth/login
-→ Login with email and password
-        </pre>
+        <h2>Endpoints</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Endpoint</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>POST</strong></td>
+              <td><code>/api/auth/signup</code></td>
+              <td>Registers a new user</td>
+            </tr>
+            <tr>
+              <td><strong>POST</strong></td>
+              <td><code>/api/auth/login</code></td>
+              <td>Logs in a user with email and password</td>
+            </tr>
+            <tr>
+              <td><strong>POST</strong></td>
+              <td><code>/api/vault/store</code></td>
+              <td>Saves a password entry</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td><code>/api/vault/list/:userId</code></td>
+              <td>Fetches all saved passwords for a user</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="section">
-        <h2>📌 VAULT ROUTES</h2>
-        <pre>
-POST   /api/vault/store
-→ Save a password for a website
-
-GET    /api/vault/list/:userId
-→ Get all saved passwords
-        </pre>
-      </div>
-
-      <div class="section">
-        <h2>📄 ENV VARIABLES</h2>
+        <h2>Environment Variables</h2>
         <pre>
 PORT=3000
-MONGO_URI=your-mongodb-uri
+MONGO_URI=mongodb+srv://...
 ENCRYPTION_KEY=32-character-secret
         </pre>
       </div>
 
       <div class="section">
-        <h2>🧪 EXAMPLE JSON</h2>
+        <h2>Example Requests</h2>
         <pre>
 POST /api/auth/signup
 {
