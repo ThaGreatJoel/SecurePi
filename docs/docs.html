@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecurePass API Docs</title>
+  <style>
+    :root {
+      --bg-dark: #343541;
+      --sidebar: #202123;
+      --panel: #2c2f36;
+      --text-light: #e4e4e7;
+      --text-muted: #9ca3af;
+      --green: #10a37f;
+      --blue: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {  
+  font-family: 'Segoe UI', sans-serif;  
+  background-color: var(--bg-dark);  
+  color: var(--text-light);  
+  display: flex;  
+  min-height: 100vh;  
+}  
+
+.sidebar {  
+  width: 240px;  
+  background-color: var(--sidebar);  
+  padding: 20px;  
+  display: flex;  
+  flex-direction: column;  
+  gap: 16px;  
+  position: sticky;  
+  top: 0;  
+  height: 100vh;  
+}  
+
+.sidebar h2 {  
+  font-size: 20px;  
+  margin-bottom: 10px;  
+}  
+
+.sidebar a {  
+  color: var(--text-muted);  
+  text-decoration: none;  
+  margin-left: 8px;  
+  display: block;  
+  padding: 6px 0;  
+  font-size: 15px;  
+}  
+
+.sidebar a:hover {  
+  color: var(--green);  
+}  
+
+.main {  
+  flex: 1;  
+  padding: 40px;  
+  background-color: var(--bg-dark);  
+  overflow-x: hidden;  
+}  
+
+.card {  
+  background-color: var(--panel);  
+  border-radius: 12px;  
+  padding: 24px;  
+  margin-bottom: 30px;  
+}  
+
+h1 {  
+  font-size: 32px;  
+  margin-bottom: 10px;  
+}  
+
+h2 {  
+  font-size: 24px;  
+  margin-bottom: 16px;  
+  color: var(--green);  
+}  
+
+h3 {  
+  font-size: 20px;  
+  margin-top: 20px;  
+}  
+
+.endpoint-row {  
+  margin-top: 15px;  
+}  
+
+.method {  
+  font-size: 13px;  
+  font-weight: 600;  
+  padding: 4px 10px;  
+  border-radius: 5px;  
+  margin-right: 10px;  
+  display: inline-block;  
+  text-transform: uppercase;  
+}  
+
+.POST { background-color: var(--green); color: white; }  
+.GET { background-color: var(--blue); color: white; }  
+
+.endpoint {  
+  background-color: #444654;  
+  padding: 4px 8px;  
+  border-radius: 6px;  
+  font-family: monospace;  
+}  
+
+pre {  
+  background-color: #444654;  
+  padding: 16px;  
+  border-radius: 8px;  
+  font-size: 15px;  
+  margin-top: 8px;  
+  overflow-x: auto;  
+}  
+
+code {  
+  background-color: #444654;  
+  padding: 2px 6px;  
+  border-radius: 4px;  
+  font-family: monospace;  
+}  
+
+.footer {  
+  text-align: center;  
+  color: var(--text-muted);  
+  margin-top: 50px;  
+}  
+
+@media (max-width: 768px) {
+body {
+flex-direction: column;
+}
+
+  .sidebar {  
+    width: 100%;  
+    height: auto;  
+    flex-direction: row;  
+    flex-wrap: wrap;  
+    padding: 10px;  
+    gap: 10px;  
+    justify-content: center;  
+  }  
+
+  .main {  
+    padding: 20px;  
+  }  
+}
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <a href="/"><h2>SecurePass API</h2></a>
+      </div>
+
+  <div class="main">
+    <!-- Overview -->
+    <div class="card" id="overview">
+      <h1>🔐 SecurePass API Reference</h1>
+      <p>This API allows user registration, login, and secure password storage with end-to-end encryption.</p>
+    </div>
+
+    <!-- Auth Section -->
+    <div class="card" id="auth">
+      <h2>Auth Endpoints</h2>
+
+      <!-- Signup -->
+      
+      <div class="endpoint-row">
+        <span class="method POST">POST</span>
+        <span class="endpoint">/api/auth/signup</span>
+      </div>
+      <p>Registers a new user with username, email, and password.</p>
+      <pre>
+{
+  "username": "joel",
+  "email": "joel@example.com",
+  "password": "StrongPass123!"
+}
+</pre>
+<pre>
+{
+  "message": "User registered successfully",
+  "userId": "64f4a7f0fbdcf01a3e923abc"
+}
+      </pre>
+
+      <!-- Login -->
+    
+      <div class="endpoint-row">
+        <span class="method POST">POST</span>
+        <span class="endpoint">/api/auth/login</span>
+      </div>
+      <p>Logs in a user using email and password.</p>
+      <pre>
+{
+  "email": "joel@example.com",
+  "password": "StrongPass123!"
+}
+</pre>
+<pre>
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+}
+</pre>
+    </div>
+
+    <!-- Vault Section -->
+    <div class="card" id="vault">
+      <h2>Vault Endpoints</h2>
+
+      <!-- Store -->
+     
+      <div class="endpoint-row">
+        <span class="method POST">POST</span>
+        <span class="endpoint">/api/vault/store</span>
+      </div>
+      <p>Saves an encrypted password entry for a site.</p>
+      <pre>
+{
+  "userId": "abc123",
+  "site": "gmail.com",
+  "password": "gmail@123"
+}
+</pre>
+<pre>
+{
+  "message": "Password saved successfully"
+}
+      </pre>
+
+      <!-- List -->
+     
+      <div class="endpoint-row">
+        <span class="method GET">GET</span>
+        <span class="endpoint">/api/vault/list/:userId</span>
+      </div>
+      <p>Returns all saved password entries for a user.</p>
+      <pre>
+[
+  {
+    "site": "gmail.com",
+    "password": "gmail@123"
+  },
+  {
+    "site": "facebook.com",
+    "password": "fb@pass456"
+  }
+]
+      </pre>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      © 2025 SecurePass API — Styled with ChatGPT Theme
+    </div>
+  </div>
+</body>
+</html>
