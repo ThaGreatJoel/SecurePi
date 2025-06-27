@@ -1,6 +1,6 @@
 # SecurePass API Documentation
 
-SecurePass is a RESTful API built with Node.js and Express.js for secure password storage and management. It features encrypted user authentication and a vault for storing service credentials, styled with a clean UI inspired by ChatGPT.
+SecurePass is a RESTful API built with Node.js and Express.js for secure password storage and management. It features encrypted user authentication and a vault for storing service credentials, styled with a clean UI.
 ⚠️THIS REPO MAY SOON BE CHANGE TO PRIVATE
 ## 🔐 Features
 - User Registration and Login with JWT
