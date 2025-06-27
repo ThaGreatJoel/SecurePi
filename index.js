@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 
 // Route files
-const homeRoute = require("./routes/Index")
+const homeRoute = require("./routes/host")
 const authRoutes = require("./routes/authRoutes")
 const vaultRoutes = require("./routes/vaultRoutes")
 
