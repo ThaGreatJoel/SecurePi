@@ -27,19 +27,27 @@
   color: var(--text-light);  
   display: flex;  
   min-height: 100vh;  
-}  
+}
+  
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
 
-.sidebar {  
-  width: 240px;  
-  background-color: var(--sidebar);  
-  padding: 20px;  
-  display: flex;  
-  flex-direction: column;  
-  gap: 16px;  
-  position: sticky;  
-  top: 0;  
-  height: 100vh;  
-}  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 10px;
+    justify-content: flex-start; /* left-align in mobile */
+  }
+
+  .main {
+    padding: 20px;
+  }
+}
 
 .sidebar h2 {  
   font-size: 20px;  
@@ -59,12 +67,6 @@
   color: var(--green);  
 }  
 
-.main {  
-  flex: 1;  
-  padding: 40px;  
-  background-color: var(--bg-dark);  
-  overflow-x: hidden;  
-}  
 
 .card {  
   background-color: var(--panel);  
@@ -135,10 +137,6 @@ code {
   margin-top: 50px;  
 }  
 
-@media (max-width: 768px) {
-body {
-flex-direction: column;
-}
 
   .sidebar {  
     width: 100%;  
@@ -261,7 +259,7 @@ flex-direction: column;
 
     <!-- Footer -->
     <div class="footer">
-      © 2025 SecurePass API — Styled with ChatGPT Theme
+      © 2025 SecurePass API — Styled with Vscode
     </div>
   </div>
 </body>
