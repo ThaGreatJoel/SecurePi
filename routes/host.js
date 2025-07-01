@@ -13,6 +13,11 @@ router.get("/docs", (req, res) => {
   res.sendFile(path.join(__dirname, "../docs/docs.html"))
 })
 
+// API Tester page 
+router.get("/apitester", (req, res) => {
+  res.sendFile(path.join(__dirname, "../docs/test.html"))
+})
+
 module.exports = router
 
 
