@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecurePi API Tester</title>
+
+  <!-- JetBrains Mono Font -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #343541;
+      --panel: #40414f;
+      --text: #ececf1;
+      --dim: #a1a1aa;
+      --green: #10a37f;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    input, select, textarea, button {
+      font-family: 'JetBrains Mono', monospace;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--panel);
+      color: var(--text);
+      padding: 0.5rem;
+    }
+
+    header {
+      background-color: var(--panel);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .container {
+      padding: 1rem;
+    }
+
+    .request-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    select, input {
+      flex: 1;
+    }
+
+    button {
+      background-color: var(--green);
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #0e8c6f;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      border-bottom: 1px solid #52525b;
+      margin-bottom: 0.5rem;
+    }
+
+    .tabs button {
+      background: none;
+      border: none;
+      color: var(--dim);
+      font-weight: bold;
+      cursor: pointer;
+      padding-bottom: 0.25rem;
+    }
+
+    .tabs button.active {
+      color: var(--green);
+      border-bottom: 2px solid var(--green);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+    }
+
+    pre {
+      background-color: var(--panel);
+      border: 1px solid #52525b;
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .response-info {
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      color: var(--dim);
+    }
+
+    .history {
+      margin-top: 2rem;
+    }
+
+    .history-entry {
+      border: 1px solid #52525b;
+      border-radius: 8px;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      background-color: var(--panel);
+      cursor: pointer;
+    }
+
+    #menuDropdown {
+      position: absolute;
+      right: 1rem;
+      top: 4.5rem;
+      background-color: var(--panel);
+      border: 1px solid #52525b;
+      border-radius: 8px;
+      display: none;
+      z-index: 1000;
+    }
+
+    #menuDropdown a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid #52525b;
+    }
+
+    #menuDropdown a:last-child {
+      border-bottom: none;
+    }
+
+    #menuDropdown a:hover {
+      background-color: #4a4b58;
+    }
+
+    @media (max-width: 640px) {
+      .request-bar {
+        flex-direction: column;
+      }
+      header h1 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>SecurePi</h1>
+  <div>
+    <button onclick="toggleMenu()">☰ Menu</button>
+    <div id="menuDropdown">
+      <a href="/" onclick="toggleMenu()">🏠 Home</a>
+      <a href="/docs" onclick="toggleMenu()">📄 Docs</a>
+      <a href="/tester" onclick="toggleMenu()">🧪 API Tester</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="request-bar">
+    <select id="method">
+      <option>GET</option>
+      <option>POST</option>
+      <option>PUT</option>
+      <option>DELETE</option>
+    </select>
+    <input id="url" type="text" placeholder="https://api.example.com/data">
+    <button onclick="sendRequest()">Send</button>
+  </div>
+
+  <div class="tabs">
+    <button onclick="showTab('params', this)" class="tab-btn active">Params</button>
+    <button onclick="showTab('headers', this)" class="tab-btn">Headers</button>
+    <button onclick="showTab('body', this)" class="tab-btn">Body</button>
+    <button onclick="showTab('auth', this)" class="tab-btn">Auth</button>
+  </div>
+
+  <div id="tab-params" class="tab-content active">
+    <textarea id="params" placeholder="key=value&name=foo"></textarea>
+  </div>
+  <div id="tab-headers" class="tab-content">
+    <textarea id="headers" placeholder='{"Content-Type": "application/json"}'></textarea>
+  </div>
+  <div id="tab-body" class="tab-content">
+    <textarea id="body" placeholder='{"name": "John"}'></textarea>
+  </div>
+  <div id="tab-auth" class="tab-content">
+    <input id="authToken" type="text" placeholder="Bearer Token" style="width: 100%; margin-top: 8px;">
+  </div>
+
+  <div class="response-info" id="responseInfo"></div>
+  <pre id="response">Waiting for request...</pre>
+
+  <section class="history">
+    <h2>History</h2>
+    <div id="historyList"></div>
+  </section>
+</main>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('menuDropdown');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('api-history') || '[]');
+    const list = document.getElementById('historyList');
+    list.innerHTML = '';
+    history.reverse().forEach(entry => {
+      const div = document.createElement('div');
+      div.className = 'history-entry';
+      div.textContent = `${entry.method} ${entry.url}`;
+      div.onclick = () => {
+        document.getElementById('method').value = entry.method;
+        document.getElementById('url').value = entry.url;
+        document.getElementById('headers').value = entry.headers;
+        document.getElementById('params').value = entry.params;
+        document.getElementById('body').value = entry.body;
+        document.getElementById('authToken').value = entry.authToken || '';
+      };
+      list.appendChild(div);
+    });
+  }
+
+  function saveHistory(entry) {
+    const history = JSON.parse(localStorage.getItem('api-history') || '[]');
+    history.push(entry);
+    localStorage.setItem('api-history', JSON.stringify(history));
+    loadHistory();
+  }
+
+  async function sendRequest() {
+    const method = document.getElementById('method').value;
+    let url = document.getElementById('url').value.trim();
+    const params = document.getElementById('params').value;
+    const headersInput = document.getElementById('headers').value;
+    const bodyInput = document.getElementById('body').value;
+    const token = document.getElementById('authToken').value;
+    const resBox = document.getElementById('response');
+    const resInfo = document.getElementById('responseInfo');
+
+    if (!url || !/^https?:\/\//i.test(url)) {
+      resBox.textContent = '❌ Please enter a valid API URL (must start with http:// or https://)';
+      resInfo.textContent = '';
+      return;
+    }
+
+    if (params && method === 'GET') {
+      url += (url.includes('?') ? '&' : '?') + params;
+    }
+
+    let headers = {};
+    try {
+      if (headersInput) headers = JSON.parse(headersInput);
+    } catch (e) {
+      resBox.textContent = '❌ Invalid headers JSON';
+      return;
+    }
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    let body = null;
+    try {
+      if (bodyInput && method !== 'GET') body = JSON.parse(bodyInput);
+    } catch (e) {
+      resBox.textContent = '❌ Invalid body JSON';
+      return;
+    }
+
+    resBox.textContent = '⏳ Sending...';
+    resInfo.textContent = '';
+
+    const start = performance.now();
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined,
+      });
+
+      const time = (performance.now() - start).toFixed(2);
+      const status = `${response.status} ${response.statusText}`;
+      resInfo.textContent = `📡 ${status} | ⏱️ ${time} ms`;
+
+      const contentType = response.headers.get('content-type') || '';
+      let data = '';
+      if (contentType.includes('application/json')) {
+        data = await response.json();
+        resBox.textContent = JSON.stringify(data, null, 2);
+      } else {
+        data = await response.text();
+        resBox.textContent = data;
+      }
+
+      saveHistory({ method, url, headers: headersInput, params, body: bodyInput, authToken: token });
+    } catch (err) {
+      resBox.textContent = '❌ Error: ' + err.message;
+    }
+  }
+
+  window.addEventListener('click', function (e) {
+    const dropdown = document.getElementById('menuDropdown');
+    const isInside = e.target.closest('#menuDropdown') || e.target.closest('button');
+    if (!isInside) dropdown.style.display = 'none';
+  });
+
+  loadHistory();
+</script>
+
+</body>
+</html>
